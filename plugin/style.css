@@ -1,0 +1,208 @@
+.vc-ffv {
+    --vc-ffv-line: 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: min(68vh, 760px);
+    min-height: 280px;
+    box-sizing: border-box;
+    background: transparent;
+    color: var(--text-default);
+}
+
+.vc-ffv-find {
+    position: absolute;
+    z-index: 2;
+    top: 8px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    max-width: calc(100% - 32px);
+    padding: 4px;
+    border-radius: 8px;
+    background: var(--background-base-low, var(--background-secondary));
+    box-shadow: var(--shadow-high), 0 0 0 1px var(--border-subtle, var(--background-modifier-accent));
+    font-family: var(--font-primary);
+}
+
+.vc-ffv-search {
+    width: 180px;
+    height: 28px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 4px;
+    background: var(--input-background);
+    color: var(--text-default);
+    font: inherit;
+    font-size: 14px;
+}
+
+.vc-ffv-search::placeholder {
+    color: var(--text-muted);
+}
+
+.vc-ffv-search:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--border-strong, var(--brand-500));
+}
+
+.vc-ffv-count {
+    min-width: 3.2em;
+    padding: 0 4px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.vc-ffv-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--interactive-normal);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.vc-ffv-icon:hover:not(:disabled) {
+    background: var(--background-modifier-hover);
+    color: var(--interactive-hover);
+}
+
+.vc-ffv-icon:disabled {
+    color: var(--interactive-muted);
+    cursor: default;
+}
+
+.vc-ffv-icon.is-on {
+    color: var(--interactive-active);
+    background: var(--background-modifier-selected);
+}
+
+.vc-ffv-find-toggle {
+    position: absolute;
+    z-index: 2;
+    top: 8px;
+    right: 16px;
+    opacity: 0;
+    background: var(--background-base-low, var(--background-secondary));
+    box-shadow: 0 0 0 1px var(--border-subtle, transparent);
+}
+
+.vc-ffv:hover .vc-ffv-find-toggle,
+.vc-ffv-find-toggle:focus-visible {
+    opacity: 1;
+}
+
+.vc-ffv-banner {
+    padding: 4px 12px 0;
+    color: var(--text-warning, var(--status-warning));
+    font-family: var(--font-primary);
+    font-size: 12px;
+}
+
+.vc-ffv-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    font-family: var(--font-code), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: var(--vc-ffv-line);
+    tab-size: 4;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thin-thumb, var(--background-modifier-accent)) transparent;
+}
+
+.vc-ffv-scroll.is-wrap {
+    overflow-x: hidden;
+}
+
+.vc-ffv-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.vc-ffv-scroll::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: var(--scrollbar-thin-thumb, hsl(0 0% 100% / 0.18));
+    background-clip: padding-box;
+}
+
+.vc-ffv-scroll::-webkit-scrollbar-track,
+.vc-ffv-scroll::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.vc-ffv-spacer {
+    position: relative;
+    min-width: 100%;
+}
+
+.vc-ffv-row {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding-right: 12px;
+}
+
+.vc-ffv-row.is-match {
+    background: color-mix(in srgb, var(--status-warning, #f0b232) 16%, transparent);
+}
+
+.vc-ffv-row.is-current {
+    background: color-mix(in srgb, var(--brand-500, #5865f2) 22%, transparent);
+}
+
+.vc-ffv-gutter {
+    position: sticky;
+    left: 0;
+    flex: none;
+    padding: 0 12px 0 16px;
+    background: var(--background-secondary);
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    user-select: none;
+}
+
+.vc-ffv-text {
+    flex: none;
+    color: var(--text-default);
+    white-space: pre;
+    user-select: text;
+}
+
+.vc-ffv-row.is-wrap .vc-ffv-text {
+    flex: 1;
+    min-width: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+}
+
+.vc-ffv-mark {
+    border-radius: 2px;
+    background: var(--background-mentioned, color-mix(in srgb, var(--status-warning, #f0b232) 45%, transparent));
+    color: var(--text-default);
+}
+
+.vc-ffv-measure {
+    position: absolute;
+    font: inherit;
+    white-space: pre;
+    visibility: hidden;
+    pointer-events: none;
+}
