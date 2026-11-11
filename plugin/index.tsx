@@ -6,9 +6,10 @@
 
 import "./style.css";
 
-import { Margins } from "@utils/margins";
+import { Margins } from "@components/margins";
+import { Paragraph } from "@components/Paragraph";
 import definePlugin from "@utils/types";
-import { Forms, React } from "@webpack/common";
+import { React } from "@webpack/common";
 
 import { settings } from "./settings";
 import { FullTextView, FullTextViewProps } from "./viewer";
@@ -40,12 +41,12 @@ export default definePlugin({
 
     settingsAboutComponent: () => (
         <>
-            <Forms.FormText>
+            <Paragraph>
                 Open a text attachment the same way you do now. The preview loads the whole file, up to the size limit below, instead of cutting it off with “(2 MB left)”.
-            </Forms.FormText>
-            <Forms.FormText className={Margins.top8}>
+            </Paragraph>
+            <Paragraph className={Margins.top8}>
                 Large files get a searchable viewer so Discord does not freeze. Close and reopen a file after changing the size limit. Ctrl+F searches inside the open file.
-            </Forms.FormText>
+            </Paragraph>
         </>
     ),
 
@@ -66,11 +67,13 @@ export default definePlugin({
             ]
         },
         {
-            // Safety net if the modal patch misses: never syntax-highlight a multi-megabyte string.
-            find: 'location:"PlaintextFilePreview"',
+            // Safety net if the modal patch misses. Discord build 670026 (2026-11-11)
+            // no longer has location:"PlaintextFilePreview"; the preview renderer is
+            // a plain function that wraps the text in a <pre>.
+            find: /let\{text:\i,language:\i,className:\i\}=\i,\i=\i\(\)\(\i\.kw,"hljs"/,
             replacement: {
-                match: /function (\i)\((\i)\)\{(?=let\{text:\i,language:\i,className:\i\}=\2)/,
-                replace: "function $1($2){if($self.shouldVirtualize($2?.text))return $self.renderVirtual($2);"
+                match: /function\((\i)\)\{(?=let\{text:\i,language:\i,className:\i\}=\1)/,
+                replace: "function($1){if($self.shouldVirtualize($1.text))return $self.renderVirtual($1);"
             }
         }
     ],
